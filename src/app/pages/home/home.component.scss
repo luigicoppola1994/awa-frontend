@@ -16,7 +16,7 @@ $text-secondary: #666;
 body, html {
   height: 100%;
   width: 100%;
-  overflow: hidden !important; /* Forza l'overflow nascosto */
+  overflow: hidden !important;
   font-family: 'Inter', sans-serif;
   line-height: 1.6;
   color: $text-primary;
@@ -26,23 +26,22 @@ body, html {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* Centra il blocco di contenuto */
+  justify-content: center;
   width: 100vw;
   height: 100vh;
   background-color: $base-light;
   background-image: url('data:image/svg+xml,%3Csvg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M100 0L0 100h100V0zM0 0l100 100V0H0z" fill="%23d8dfe5" fill-opacity="0.1"/%3E%3C/svg%3E');
-  overflow: hidden !important; /* Forza l'overflow nascosto anche qui */
+  overflow: hidden !important;
   position: relative;
-  // MODIFICATO: Riduci il padding verticale per liberare spazio
-  padding: 0 1.5vw; /* Solo padding orizzontale, verticale a 0 */
+  padding: 0 1.5vw;
 }
 
 /* --- COMPANY LOGO --- */
 .company-logo {
   position: absolute;
-  top: 2.5vh; /* Leggermente più vicino al bordo */
+  top: 2.5vh;
   left: 2.5vw;
-  height: 7vh; /* Altezza leggermente ridotta per risparmiare spazio */
+  height: 7vh;
   max-height: 55px;
   object-fit: contain;
   z-index: 10;
@@ -50,19 +49,46 @@ body, html {
   transition: all 0.3s ease-in-out;
 }
 
-/* --- AVATARS GRID --- */
+/* --- AVATARS CONTAINER --- */
 .avatars-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   max-width: 900px;
   width: 100%;
   margin: auto;
-  // MODIFICATO: Riduci padding verticale sulla griglia
-  padding-top: 3vh; /* Ridotto il padding sopra la griglia */
-  padding-bottom: 3vh; /* Ridotto il padding sotto la griglia */
+  padding-top: 2vh;
+  padding-bottom: 2vh;
   flex-shrink: 0;
+  gap: 2rem;
 }
+
+/* --- TOP AVATAR (CHI SIAMO) --- */
+.top-avatar {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+/* --- BOTTOM GRID (5 avatars rimanenti) --- */
+.bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: repeat(2, 1fr);
+  gap: 1.8rem;
+  width: 100%;
+  max-width: 700px;
+  justify-items: center;
+  align-items: center;
+}
+
+/* Posizionamento specifico: VALE e CONTATTI centrati nella prima riga */
+.bottom-grid .avatar-item:nth-child(1) { grid-column: 2; grid-row: 1; } /* VALE */
+.bottom-grid .avatar-item:nth-child(2) { grid-column: 4; grid-row: 1; } /* CONTATTI */
+.bottom-grid .avatar-item:nth-child(3) { grid-column: 1; grid-row: 2; } /* PRODOTTI */
+.bottom-grid .avatar-item:nth-child(4) { grid-column: 3; grid-row: 2; } /* CONSULENZA */
+.bottom-grid .avatar-item:nth-child(5) { grid-column: 5; grid-row: 2; } /* FORMAZIONE */
 
 /* --- AVATAR ITEM (Singolo Avatar) --- */
 .avatar-item {
@@ -126,16 +152,21 @@ body, html {
     top: 2.5vh;
     left: 50%;
     transform: translateX(-50%);
-    height: 6vh; /* Altezza leggermente ridotta */
+    height: 6vh;
     max-height: 50px;
   }
 
   .avatars-grid {
     gap: 1.5rem;
     max-width: 650px;
-    // MODIFICATO: Riduci padding verticale sulla griglia per tablet
-    padding-top: 5vh; /* Spazio per il logo */
+    padding-top: 8vh;
     padding-bottom: 5vh;
+  }
+
+  .bottom-grid {
+    gap: 1.5rem;
+    max-width: 550px;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   }
 
   .avatar-item .avatar-image-fill {
@@ -144,6 +175,7 @@ body, html {
     max-width: 130px;
     max-height: 130px;
   }
+  
   .avatar-item .avatar-name {
     font-size: 2vh;
   }
@@ -152,10 +184,11 @@ body, html {
 /* Mobile (max-width: 768px) */
 @media (max-width: 768px) {
   .homepage-container {
-    padding: 0 2vw; /* MODIFICATO: Solo padding orizzontale */
+    padding: 0 2vw;
   }
+  
   .company-logo {
-    top: 2vh; /* Più vicino al bordo */
+    top: 2vh;
     left: 50%;
     transform: translateX(-50%);
     height: 5vh;
@@ -163,13 +196,25 @@ body, html {
   }
 
   .avatars-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem; /* MODIFICATO: Gap più piccolo */
+    gap: 1rem;
     max-width: 380px;
-    // MODIFICATO: Riduci padding verticale sulla griglia per mobile
-    padding-top: 8vh; /* Spazio per il logo */
-    padding-bottom: 4vh; /* Spazio ridotto */
+    padding-top: 10vh;
+    padding-bottom: 4vh;
   }
+
+  .bottom-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 1rem;
+    max-width: 300px;
+  }
+
+  /* Riorganizza per mobile: 2 colonne, 3 righe */
+  .bottom-grid .avatar-item:nth-child(1) { grid-column: 1; grid-row: 1; }
+  .bottom-grid .avatar-item:nth-child(2) { grid-column: 2; grid-row: 1; }
+  .bottom-grid .avatar-item:nth-child(3) { grid-column: 1; grid-row: 2; }
+  .bottom-grid .avatar-item:nth-child(4) { grid-column: 2; grid-row: 2; }
+  .bottom-grid .avatar-item:nth-child(5) { grid-column: 1; grid-row: 3; }
 
   .avatar-item .avatar-image-fill {
     width: 25vw;
@@ -177,9 +222,10 @@ body, html {
     max-width: 110px;
     max-height: 110px;
   }
+  
   .avatar-item .avatar-name {
     font-size: 1.8vh;
-    margin-top: 0.8vh; /* Margine ridotto */
+    margin-top: 0.8vh;
   }
 }
 
@@ -189,19 +235,26 @@ body, html {
     height: 4.5vh;
     max-height: 40px;
   }
+  
   .avatars-grid {
     gap: 0.8rem;
-    padding-top: 6vh; /* Ridotto ulteriormente */
-    padding-bottom: 3vh; /* Ridotto ulteriormente */
+    padding-top: 8vh;
+    padding-bottom: 3vh;
   }
+  
+  .bottom-grid {
+    gap: 0.8rem;
+  }
+  
   .avatar-item .avatar-image-fill {
     width: 30vw;
     height: 30vw;
     max-width: 90px;
     max-height: 90px;
   }
+  
   .avatar-item .avatar-name {
     font-size: 1.6vh;
-    margin-top: 0.6vh; /* Margine molto ridotto */
+    margin-top: 0.6vh;
   }
 }
