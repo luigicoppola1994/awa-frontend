@@ -1,0 +1,17 @@
+/* src/app/app.component.scss */
+
+/* Assicurati che non ci siano stili che aggiungano spazio extra */
+:host {
+  display: block; /* Importante per un host element che riceva altezza e larghezza */
+  height: 100%;
+  width: 100%;
+  overflow: hidden; /* Assicura che app-root non crei scroll */
+}
+
+/* Stili per il router-outlet */
+router-outlet {
+  display: block; /* router-outlet è un custom element, mettilo block */
+  height: 100%;
+  width: 100%;
+  overflow: hidden; /* Assicura che il router-outlet non crei scroll */
+}

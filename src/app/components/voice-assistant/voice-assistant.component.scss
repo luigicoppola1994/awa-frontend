@@ -1,0 +1,125 @@
+/* --- COLOR PALETTE & VARIABLES --- */
+// Variabili duplicate qui
+$base-light: #e0e5ec;
+$dark-shadow-neumorphic: rgba(174, 174, 192, 0.4);
+$light-shadow-neumorphic: rgba(255, 255, 255, 0.8);
+$accent-blue: #007bff; // Questo sarà il nostro blu per lo sfondo del footer
+$text-primary: #333;
+$text-secondary: #666;
+// $dark-footer-bg: #222; // Non più usato per il footer, ora useremo $accent-blue
+$wave-color-white: white; // Onda sonora bianca
+$mic-button-bg-blue: #00aaff; // Blu leggermente più chiaro per il bottone microfono
+$mic-button-glow-white: rgba(255, 255, 255, 0.6); // Bagliore bianco per il microfono
+$chat-bg: white;
+$chat-shadow: rgba(0, 0, 0, 0.25);
+$user-msg-bg: #e3f2fd;
+$assistant-msg-bg: #f5f5f5;
+
+/* --- VOICE ASSISTANT CONTAINER (Wraps the entire component) --- */
+.voice-assistant-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* --- THE FOOTER BAR ITSELF --- */
+.footer-voice-bar {
+  width: 100%;
+  height: 100%; /* Occupa l'intera altezza del suo genitore (.voice-assistant-footer) */
+  display: flex;
+  justify-content: space-between; /* Spinge onda a sinistra, microfono a destra */
+  align-items: center;
+  background-color: $accent-blue; /* Sfondo BLU come richiesto */
+  padding: 0 20px; /* Padding interno */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4); /* Ombra discreta */
+}
+
+/* --- SOUND WAVE VISUALIZATION --- */
+.sound-wave-visualization {
+  flex-grow: 1; /* Prende lo spazio disponibile */
+  height: 40px; /* Altezza dell'onda */
+  margin-right: 15px; /* Spazio tra onda e microfono */
+  opacity: 0.6; /* Leggera trasparenza per l'onda */
+  position: relative;
+  overflow: hidden; /* Nasconde le parti dell'onda che escono */
+
+  /* Linee dell'onda sonora bianche e animate */
+  background: repeating-linear-gradient(90deg, 
+              $wave-color-white 0px, $wave-color-white 2px, 
+              transparent 2px, transparent 10px);
+  background-size: 100% 100%; // Per la larghezza e l'altezza del contenitore
+  background-position: left center; // Inizialmente centrato verticalmente
+
+  /* Animazione dell'onda sonora (solo quando attiva) */
+  &.active {
+    animation: wave-motion 1.5s linear infinite;
+  }
+}
+
+/* Animazione del movimento dell'onda */
+@keyframes wave-motion {
+  0% { background-position: 0% center; }
+  100% { background-position: 100% center; }
+}
+
+/* --- MICROPHONE BUTTON --- */
+.microphone-button {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  background-color: $mic-button-bg-blue; /* Sfondo del bottone microfono blu */
+  border: 2px solid $wave-color-white; /* Bordo bianco per il microfono */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 0 0 0 $mic-button-glow-white; /* Bagliore iniziale bianco */
+  animation: pulse-glow 1.5s infinite ease-in-out;
+  flex-shrink: 0;
+  
+  img {
+    width: 35px;
+    height: 35px;
+    filter: invert(100%); /* Rende l'icona del microfono bianca */
+  }
+}
+
+/* --- ANIMATIONS (per il bagliore del microfono) --- */
+@keyframes pulse-glow {
+  0% { box-shadow: 0 0 0 0 rgba($mic-button-glow-white, 0.4); }
+  70% { box-shadow: 0 0 0 15px rgba($mic-button-glow-white, 0); }
+  100% { box-shadow: 0 0 0 0 rgba($mic-button-glow-white, 0); }
+}
+
+/* --- MEDIA QUERIES --- */
+@media (max-width: 768px) {
+  .footer-voice-bar {
+    padding: 0 15px;
+  }
+  .sound-wave-visualization {
+    height: 30px;
+    background-size: 15px 30px;
+  }
+  .microphone-button {
+    width: 55px;
+    height: 55px;
+    img { width: 30px; height: 30px; }
+  }
+}
+@media (max-width: 480px) {
+  .footer-voice-bar {
+    padding: 0 10px;
+  }
+  .sound-wave-visualization {
+    height: 25px;
+    background-size: 10px 25px;
+  }
+  .microphone-button {
+    width: 45px;
+    height: 45px;
+    img { width: 25px; height: 25px; }
+  }
+}

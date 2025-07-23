@@ -1,12 +1,29 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+/* src/app/app.component.ts */
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterOutlet, Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  standalone: true,
+  imports: [CommonModule, RouterOutlet],
+  template: `
+    <router-outlet></router-outlet>
+  `, // DEVE ESSERE SOLO QUESTO
+  styleUrls: ['./app.component.scss'] // Collega il file SCSS minimalista sopra
 })
-export class AppComponent {
-  title = 'awa-frontend';
+export class AppComponent implements OnInit {
+  title = 'Sito Intelligente IT';
+
+  constructor(private router: Router) {}
+
+  ngOnInit() {
+    console.log('🅰️ Angular AppComponent initialized');
+    
+    // Listener per la navigazione dal widget ElevenLabs
+    window.addEventListener('angular-navigate', (event: any) => {
+      console.log('🧭 Angular navigating to:', event.detail.url);
+      this.router.navigate([event.detail.url]);
+    });
+  }
 }

@@ -1,0 +1,10 @@
+<div class="homepage-container">
+  <img src="https://www.itconsultingsrl.it/wp-content/uploads/2020/09/itconsulting-sito-web-logo.svg" alt="Company Logo" class="company-logo"> 
+  
+  <div class="avatars-grid">
+    <div *ngFor="let avatar of avatars" class="avatar-item" [routerLink]="avatar.link">
+      <img [src]="avatar.image" [alt]="avatar.name" class="avatar-image-fill"> 
+      <p class="avatar-name">{{ avatar.name }}</p>
+    </div>
+  </div>
+</div>

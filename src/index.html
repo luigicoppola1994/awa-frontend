@@ -9,5 +9,87 @@
 </head>
 <body>
   <app-root></app-root>
+  
+  <!-- Widget ElevenLabs -->
+  <elevenlabs-convai agent-id="agent_01k0p4gvgaffpb08wtt3662eq5"></elevenlabs-convai>
+  <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+  
+  <script>
+    // Mapping agenti
+    const AGENT_MAPPING = {
+      '/': 'agent_01k0p4gvgaffpb08wtt3662eq5',
+      '/contatti': 'agent_01k0p4gvgaffpb08wtt3662eq5',
+      '/formazione': 'agent_01k0p4gvgaffpb08wtt3662eq5',
+      '/amministrazione': 'agent_01k0p4m8djec1a8ey5gy2r8eg1',
+      '/commerciale': 'agent_01k0p4m8djec1a8ey5gy2r8eg1',
+      '/uffici': 'agent_01k0p4m8djec1a8ey5gy2r8eg1',
+      '/servizi': 'agent_01k0p91577erdb3zbsdfsyhehr',
+      '/prodotti': 'agent_01k0p91577erdb3zbsdfsyhehr'
+    };
+
+    function switchAgent(newRoute) {
+      console.log('🔄 Switching agent for route:', newRoute);
+      
+      let agentId = AGENT_MAPPING['/'];  // Default
+      
+      for (const [route, agent] of Object.entries(AGENT_MAPPING)) {
+        if (newRoute === route || newRoute.startsWith(route + '/')) {
+          agentId = agent;
+          break;
+        }
+      }
+      
+      console.log('🤖 Selected agent:', agentId);
+      
+      const widget = document.querySelector('elevenlabs-convai');
+      if (widget && widget.getAttribute('agent-id') !== agentId) {
+        widget.setAttribute('agent-id', agentId);
+        console.log('✅ Agent switched to:', agentId);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('🚀 DOM loaded, initializing widget...');
+      
+      const widget = document.querySelector('elevenlabs-convai');
+      if (widget) {
+        console.log('📱 Widget found');
+        
+        // Setup client tools
+        widget.addEventListener('elevenlabs-convai:call', (event) => {
+          console.log('🔧 Setting up client tools...');
+          
+          event.detail.config.clientTools = {
+            redirectToExternalURL: ({ url }) => {
+              console.log('🚀 redirectToExternalURL called with:', url);
+              
+              if (url && url.startsWith('/')) {
+                console.log('📍 Internal navigation to:', url);
+                
+                // Cambia agente PRIMA di navigare
+                switchAgent(url);
+                
+                // Aspetta un momento per il cambio agente
+                setTimeout(() => {
+                  // Usa Angular Router attraverso l'evento
+                  window.history.pushState({}, '', url);
+                  window.dispatchEvent(new PopStateEvent('popstate'));
+                  console.log('✅ Navigation completed to:', url);
+                }, 100);
+              } else if (url) {
+                console.log('🌐 External navigation to:', url);
+                window.open(url, '_blank', 'noopener,noreferrer');
+              }
+            },
+          };
+        });
+
+        // Switch agente iniziale
+        switchAgent(window.location.pathname);
+      } else {
+        console.error('❌ Widget not found');
+      }
+    });
+  </script>
 </body>
 </html>

@@ -1,0 +1,35 @@
+<div class="product-section-container">
+  <header class="section-header">
+    <img src="assets/company-logo.png" alt="Company Logo" class="company-logo">
+    <h1 class="section-title">{{ sectionTitle }}</h1> <a routerLink="/" class="back-button">← Home</a> </header>
+
+  <main class="content-area">
+    <div class="product-list">
+      <ng-container *ngIf="products.length > 0; else noProducts">
+        <div *ngFor="let product of products" class="product-item">
+          <h2>{{ product.name }}</h2>
+          <p class="description">{{ product.description }}</p>
+          <p class="price">
+            Prezzo: 
+            <ng-container *ngIf="product.price !== 'preventivo'">
+              €{{ product.price | number:'1.2-2' }}
+            </ng-container>
+            <ng-container *ngIf="product.price === 'preventivo'">
+              Su Preventivo
+            </ng-container>
+          </p>
+          </div>
+      </ng-container>
+      <ng-template #noProducts>
+        <div class="no-products-message">
+          <p>Nessun prodotto o servizio disponibile per questa sezione.</p>
+          <p>Potrebbe non esserci contenuto o la categoria non è valida.</p>
+        </div>
+      </ng-template>
+    </div>
+  </main>
+
+  <footer class="voice-assistant-footer">
+    <app-voice-assistant [pageContent]="pageContent"></app-voice-assistant>
+  </footer>
+</div>
